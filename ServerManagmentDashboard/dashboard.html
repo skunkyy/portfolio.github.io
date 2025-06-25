@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Server Management Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <div class="min-h-screen bg-gray-900 text-white">
+    <!-- Header -->
+    <header class="bg-gray-800 border-b border-gray-700 p-6">
+      <div class="header-container">
+        <div class="header-left">
+          <div class="icon-container bg-blue-600 rounded-xl">
+            <span class="icon">🖥️</span>
+          </div>
+          <div>
+            <h1 class="text-2xl font-bold text-white">Server Management Dashboard</h1>
+            <p class="text-gray-400">Zarządzaj swoimi serwerami Minecraft</p>
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="text-right">
+            <p class="text-sm text-gray-400">Ostatnia synchronizacja</p>
+            <p class="text-white font-medium">2 minuty temu</p>
+          </div>
+          <div class="status-dot bg-green-400 rounded-full animate-pulse"></div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="bg-gray-800 border-b border-gray-700 px-6 py-4">
+      <div class="nav-container">
+        <button class="tab-button active" data-tab="overview">
+          <span class="icon">🖥️</span>
+          <span class="font-medium">Przegląd</span>
+        </button>
+        <button class="tab-button" data-tab="players">
+          <span class="icon">👥</span>
+          <span class="font-medium">Gracze</span>
+        </button>
+        <button class="tab-button" data-tab="console">
+          <span class="icon">>_</span>
+          <span class="font-medium">Konsola</span>
+        </button>
+        <button class="tab-button" data-tab="settings">
+          <span class="icon">⚙️</span>
+          <span class="font-medium">Ustawienia</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="p-6">
+      <!-- Overview Tab -->
+      <div id="overview" class="tab-content">
+        <div class="stat-grid">
+          <div class="stat-card">
+            <div class="icon-container bg-green-600-20">
+              <span class="icon text-green-400">🖥️</span>
+            </div>
+            <div class="stat-content">
+              <p class="text-2xl font-bold text-white">2/3</p>
+              <p class="text-sm text-gray-400">Aktywne Serwery</p>
+              <p class="text-xs text-gray-500">1 w konserwacji</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="icon-container bg-blue-600-20">
+              <span class="icon text-blue-400">👥</span>
+            </div>
+            <div class="stat-content">
+              <p class="text-2xl font-bold text-white">32</p>
+              <p class="text-sm text-gray-400">Gracze Online</p>
+              <p class="text-xs text-gray-500">Max: 120 graczy</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="icon-container bg-purple-600-20">
+              <span class="icon text-purple-400">📈</span>
+            </div>
+            <div class="stat-content">
+              <p class="text-2xl font-bold text-white">19.9</p>
+              <p class="text-sm text-gray-400">Średnie TPS</p>
+              <p class="text-xs text-gray-500">Ostatnie 24h</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="icon-container bg-yellow-600-20">
+              <span class="icon text-yellow-400">⚡</span>
+            </div>
+            <div class="stat-content">
+              <p class="text-2xl font-bold text-white">9.3GB</p>
+              <p class="text-sm text-gray-400">Wykorzystanie RAM</p>
+              <p class="text-xs text-gray-500">z 18GB dostępnych</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="server-grid">
+          <!-- Server Cards will be populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Players Tab -->
+      <div id="players" class="tab-content hidden">
+        <div class="bg-gray-800 rounded-xl border border-gray-700">
+          <div class="p-6 border-b border-gray-700">
+            <h2 class="text-xl font-semibold text-white flex items-center">
+              <span class="icon mr-2">👥</span>
+              Gracze Online (<span id="player-count">0</span>)
+            </h2>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead class="bg-gray-700-50">
+                <tr>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Gracz</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Serwer</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Czas gry</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
+                  <th class="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider">Akcje</th>
+                </tr>
+              </thead>
+              <tbody id="player-table" class="divide-y divide-gray-700">
+                <!-- Player rows will be populated by JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Console Tab -->
+      <div id="console" class="tab-content hidden">
+        <div class="bg-gray-800 rounded-xl border border-gray-700">
+          <div class="p-6 border-b border-gray-700">
+            <h2 class="text-xl font-semibold text-white flex items-center">
+              <span class="icon mr-2">>_</span>
+              Konsola Serwera
+            </h2>
+          </div>
+          <div class="p-6">
+            <div id="console-output" class="bg-black rounded-lg p-4 h-96 overflow-y-auto font-mono text-sm"></div>
+            <div class="mt-4 flex space-x-2">
+              <input
+                type="text"
+                id="console-input"
+                placeholder="Wpisz komendę..."
+                class="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white placeholder-gray-400 focus:outline-none focus:border-blue-500"
+              />
+              <button id="console-submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                Wyślij
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Tab -->
+      <div id="settings" class="tab-content hidden">
+        <div class="settings-grid">
+          <div class="bg-gray-800 rounded-xl border border-gray-700 p-6">
+            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+              <span class="icon mr-2">⚙️</span>
+              Ustawienia Ogólne
+            </h3>
+            <div class="space-y-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-400 mb-2">Nazwa Serwera</label>
+                <input class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500" value="Mój Serwer Minecraft" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-400 mb-2">Maksymalna liczba graczy</label>
+                <input type="number" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500" value="50" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-400 mb-2">Tryb gry</label>
+                <select class="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white focus:outline-none focus:border-blue-500">
+                  <option>Survival</option>
+                  <option>Creative</option>
+                  <option>Adventure</option>
+                  <option>Spectator</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="bg-gray-800 rounded-xl border border-gray-700 p-6">
+            <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+              <span class="icon mr-2">🛡️</span>
+              Bezpieczeństwo
+            </h3>
+            <div class="space-y-4">
+              <div class="flex items-center justify-between">
+                <span class="text-gray-300">Whitelist</span>
+                <button class="toggle-switch bg-blue-600">
+                  <span class="toggle-knob translate-x-6"></span>
+                </button>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-gray-300">Online Mode</span>
+                <button class="toggle-switch bg-blue-600">
+                  <span class="toggle-knob translate-x-6"></span>
+                </button>
+              </div>
+              <div class="flex items-center justify-between">
+                <span class="text-gray-300">PvP</span>
+                <button class="toggle-switch bg-gray-600">
+                  <span class="toggle-knob translate-x-1"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-end space-x-4">
+          <button class="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors">Anuluj</button>
+          <button class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">Zapisz Zmiany</button>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="dashboard.js"></script>
+</body>
+</html>
