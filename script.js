@@ -12,22 +12,6 @@ const getActivityPrefix = (type, name) => {
   }
 };
 
-const updateVisitCounter = async () => {
-    try {
-        const response = await axios.get('http://helya.wisp.uno:12418/api/visits');
-        const visitCount = response.data.visits || 0;
-        document.getElementById('visit-count').textContent = visitCount;
-    } catch (error) {
-        console.error('Błąd pobierania licznika odwiedzin:', error);
-        document.getElementById('visit-count').textContent = 'Błąd';
-    }
-};
-
-// Wywołaj funkcję przy ładowaniu strony
-document.addEventListener('DOMContentLoaded', () => {
-    updateVisitCounter();
-});
-
 // Function to set default values on error
 const setDefaultValues = () => {
   document.getElementById('avatar').src = 'assets/default-avatar.png';
